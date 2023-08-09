@@ -7,17 +7,16 @@ import java.io.Serializable;
 
 @Entity
 public class Stock implements Serializable {
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private int id;
-        private String stockTicker;
-        private double price;
-        private int volume;
-        private String buyOrSell;
-        private int statusCode;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+    private String stockTicker;
+    private double price;
+    private int volume;
+    private String buyOrSell;
+    private int statusCode;
 
-        public Stock(){ };
-
+    public Stock() {}
     public Stock(int id, String stockTicker, double price, int volume, String buyOrSell, int statusCode) {
         this.id = id;
         this.stockTicker = stockTicker;
@@ -75,3 +74,4 @@ public class Stock implements Serializable {
         this.statusCode = statusCode;
     }
 }
+
