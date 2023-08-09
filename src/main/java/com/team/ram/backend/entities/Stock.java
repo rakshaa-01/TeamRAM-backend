@@ -3,7 +3,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-
 import java.io.Serializable;
 
 @Entity
@@ -17,9 +16,9 @@ public class Stock implements Serializable {
     private String buyOrSell;
     private int statusCode;
 
-    public Stock(){};
-
-    public Stock(String stockTicker, double price, int volume, String buyOrSell, int statusCode) {
+    public Stock() {}
+    public Stock(int id, String stockTicker, double price, int volume, String buyOrSell, int statusCode) {
+        this.id = id;
         this.stockTicker = stockTicker;
         this.price = price;
         this.volume = volume;
@@ -74,8 +73,5 @@ public class Stock implements Serializable {
     public void setStatusCode(int statusCode) {
         this.statusCode = statusCode;
     }
-
-
-
-
 }
+
