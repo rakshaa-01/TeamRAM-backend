@@ -17,6 +17,16 @@ public class Stock implements Serializable {
     private String buyOrSell;
     private int statusCode;
 
+    public Stock(){};
+
+    public Stock(String stockTicker, double price, int volume, String buyOrSell, int statusCode) {
+        this.stockTicker = stockTicker;
+        this.price = price;
+        this.volume = volume;
+        this.buyOrSell = buyOrSell;
+        this.statusCode = statusCode;
+    }
+
     public int getId() {
         return id;
     }
@@ -65,9 +75,7 @@ public class Stock implements Serializable {
         this.statusCode = statusCode;
     }
 
-    public Stock(){
 
-    }
 
 
 }
