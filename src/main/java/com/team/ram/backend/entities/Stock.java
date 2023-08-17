@@ -3,9 +3,16 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.io.Serializable;
 
 @Entity
+@Data //Getter, setter, toString
+@Builder
+
 public class Stock implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,6 +31,18 @@ public class Stock implements Serializable {
         this.volume = volume;
         this.buyOrSell = buyOrSell;
         this.statusCode = statusCode;
+    }
+
+    @Override
+    public String toString() {
+        return "Stock{" +
+                "id=" + id +
+                ", stockTicker='" + stockTicker + '\'' +
+                ", price=" + price +
+                ", volume=" + volume +
+                ", buyOrSell='" + buyOrSell + '\'' +
+                ", statusCode=" + statusCode +
+                '}';
     }
 
     public int getId() {
