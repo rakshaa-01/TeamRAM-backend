@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface StockRepository extends JpaRepository<Stock, Integer> {
-
+ //If any new function added here, write tests in StockRepositoryTest.java, for others not needed.
 }
