@@ -6,10 +6,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+// import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
 @RestController
+@CrossOrigin
 public class StockController {
 
     @Autowired
@@ -34,6 +36,8 @@ public class StockController {
     public String deleteStockById(@PathVariable("id") Integer stockId) {
         stockService.deleteStockById(stockId);
         LOGGER.info("Stock order deleted successfully");
-        return "Stock order deleted Successfully!!";
+        // The below can be used when return type of calling function is - ResponseEntity<String>
+        // return ResponseEntity.ok("Stock order deleted successfully!.");
+         return "Stock order ID: " + stockId + " deleted Successfully!!";
     }
 }

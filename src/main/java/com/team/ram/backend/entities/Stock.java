@@ -8,11 +8,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.Date;
 
 @Entity
 @Data //Getter, setter, toString
 @Builder
-
 public class Stock implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,7 +20,7 @@ public class Stock implements Serializable {
     private String stockTicker;
     private double price;
     private int volume;
-    private String buyOrSell;
+    private String buyOrSell; //BUY, SELL, HOLD
     private int statusCode;
 
     public Stock() {}
