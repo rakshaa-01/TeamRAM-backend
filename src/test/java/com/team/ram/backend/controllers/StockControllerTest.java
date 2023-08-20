@@ -12,13 +12,16 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.Matchers.any;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willDoNothing;
+import static org.mockito.Mockito.when;
 import static org.springframework.http.RequestEntity.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -34,6 +37,12 @@ public class StockControllerTest {
     private StockService stockService;
 
     private Stock stock;
+
+    private final String apiUrl = "https://v588nmxc10.execute-api.us-east-1.amazonaws.com/default/tickerList";
+
+
+    @MockBean
+    private RestTemplate restTemplate;
 
     @BeforeEach
     void setUp() {
@@ -57,7 +66,7 @@ public class StockControllerTest {
                .statusCode(0)
                .build();
 
-        Mockito.when(stockService.saveStock(inputStock))
+        when(stockService.saveStock(inputStock))
                 .thenReturn(stock);
 
         mockMvc.perform(post("/stock")
@@ -70,7 +79,7 @@ public class StockControllerTest {
     void fetchStockList_controller_test() throws Exception {
         List<Stock> inputStock = new ArrayList<>();
         inputStock.add(stock);
-        Mockito.when(stockService.fetchStockList())
+        when(stockService.fetchStockList())
                 .thenReturn(inputStock);
 
         mockMvc.perform(get("/stock")
@@ -84,5 +93,31 @@ public class StockControllerTest {
         this.mockMvc.perform(MockMvcRequestBuilders.delete("/stock/{id}", stock.getId())
                         .contentType(MediaType.APPLICATION_JSON))
                         .andExpect(status().isOk());
+    }
+
+    @Test
+    void checkTicker_test_positive() throws Exception {
+        String stockTicker = "AAPL";
+        String apiResponse = "AAPL,GOOG,AMZN";
+
+        when(restTemplate.getForObject(apiUrl, String.class)).thenReturn(apiResponse);
+
+        StockController stockController = new StockController();
+
+        boolean result = stockController.checkTicker(stockTicker);
+        assertTrue(result);
+    }
+
+    @Test
+    void checkTicker_test_negative() throws Exception{
+        String stockTicker = "TISLA";
+        String apiResponse = "AAPL,GOOG,AMZN";
+
+        when(restTemplate.getForObject(apiUrl, String.class)).thenReturn(apiResponse);
+
+        StockController stockController = new StockController();
+
+        boolean result = stockController.checkTicker(stockTicker);
+        assertFalse(result);
     }
 }

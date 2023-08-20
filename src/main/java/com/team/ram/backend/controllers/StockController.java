@@ -6,7 +6,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-// import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
+
 
 import java.util.List;
 
@@ -39,5 +40,17 @@ public class StockController {
         // The below can be used when return type of calling function is - ResponseEntity<String>
         // return ResponseEntity.ok("Stock order deleted successfully!.");
          return "Stock order ID: " + stockId + " deleted Successfully!!";
+    }
+
+    @GetMapping("/check-ticker")
+    public boolean checkTicker(@RequestParam String stockTicker) {
+        String apiUrl = "https://v588nmxc10.execute-api.us-east-1.amazonaws.com/default/tickerList";
+        RestTemplate restTemplate = new RestTemplate();
+        String response = restTemplate.getForObject(apiUrl, String.class);
+        if (response != null && response.contains(stockTicker)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
