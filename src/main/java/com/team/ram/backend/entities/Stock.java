@@ -25,7 +25,16 @@ public class Stock implements Serializable {
 
     public Stock() {}
     public Stock(int id, String stockTicker, double price, int volume, String buyOrSell, int statusCode) {
-        this.id = id;
+        if(stockTicker == null){
+            throw new IllegalArgumentException("Stock Label cannot be null");
+        }
+        if(price < 0){
+            throw new IllegalArgumentException("Price cannot be a minus amount");
+        }
+        if(volume < 0){
+            throw new IllegalArgumentException("Volume cannot be a minus amount");
+        }
+
         this.stockTicker = stockTicker;
         this.price = price;
         this.volume = volume;
