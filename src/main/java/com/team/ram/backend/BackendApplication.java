@@ -8,9 +8,6 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 @SpringBootApplication
 public class BackendApplication {
 	public static void main(String[] args) {
-		//SpringApplication.run(BackendApplication.class, args); //Statement giving error in test main
-		new SpringApplicationBuilder(BackendApplication.class)
-				.web(WebApplicationType.NONE)
-				.run(args);
+		SpringApplication.run(BackendApplication.class, args);
 	}
 }
