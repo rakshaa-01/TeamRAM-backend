@@ -1,10 +1,13 @@
 package com.team.ram.backend.controllers;
 import com.team.ram.backend.entities.Stock;
+import com.team.ram.backend.error.StockNotFoundException;
+import com.team.ram.backend.repositories.StockRepository;
 import com.team.ram.backend.services.StockService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -17,6 +20,9 @@ public class StockController {
 
     @Autowired
     private StockService stockService;
+
+    @Autowired
+    private StockRepository stockRepository;
 
     private final Logger LOGGER =
             LoggerFactory.getLogger(StockController.class);
@@ -52,5 +58,20 @@ public class StockController {
         } else {
             return false;
         }
+    }
+
+    @PutMapping("/stock/{id}")
+    public ResponseEntity<Stock> updateStock(@PathVariable int id, @RequestBody Stock stockDetails) {
+        Stock updateStock = stockRepository.findById(id)
+                .orElseThrow(() -> new StockNotFoundException("Stock order does not exist with id: " + id));
+
+        updateStock.setStockTicker(stockDetails.getStockTicker());
+        updateStock.setPrice(stockDetails.getPrice());
+        updateStock.setVolume(stockDetails.getVolume());
+        updateStock.setBuyOrSell(stockDetails.getBuyOrSell());
+        updateStock.setStatusCode(stockDetails.getStatusCode());
+        LOGGER.info("Stock order ID " + id + " updated successfully");
+        stockRepository.save(updateStock);
+        return ResponseEntity.ok(updateStock);
     }
 }
